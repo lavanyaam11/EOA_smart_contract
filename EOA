@@ -1,0 +1,34 @@
+pragma solidity >=0.5.13 <0.7.3;
+
+contract charitySmartContract{
+    address public owner;
+    
+    constructor() public {
+        
+        owner = msg.sender;
+    }
+    
+    //This function take the address of the account that wants to deposit or withdraw the ethers
+    function setOwner(address _myaddr) public {
+        
+        owner = _myaddr;
+    }
+    
+    //This function checks whether the enter account address matches the owner account,if so user can deposit the ethers else the error message will be displayed
+    function depositEthers() public payable {
+        
+        require(msg.sender == owner, "You Cannot Deposit the ethers Coz you are not the owner");
+    }
+    
+    //This function checks whether the enter account address matches the owner account,if so user can withdraw the ethers else the error message will be displayed
+    function withdrawAllEthers() public{
+        require(msg.sender == owner, "You Cannot Withdraw All ethers Coz you are not the owner");
+        address payable to = msg.sender;
+        to.transfer(address(this).balance);
+    }
+    
+    //This function gives the current balance in the account
+    function currentEtherInContrat() public view returns(uint256){
+        return address(this).balance;
+    }
+}
